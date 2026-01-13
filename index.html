@@ -1721,7 +1721,7 @@
               <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--ref-padding-m);">
                 <!-- Front Photo -->
                 <div class="photo-upload-box" data-side="front">
-                  <input type="file" id="photoFront" accept="image/*" capture="environment" style="display: none;">
+                  <input type="file" id="photoFront" accept="image/*" style="display: none;">
                   <label for="photoFront" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px; padding: var(--ref-padding-m); background: var(--bg-tertiary); border: 2px dashed var(--fill-secondary); border-radius: var(--comp-card-radius); cursor: pointer; transition: all 0.2s;">
                     <div class="photo-preview-img" style="display: none; width: 100%; margin-bottom: var(--ref-padding-s);"></div>
                     <svg class="photo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--fg-tertiary)" stroke-width="2" style="margin-bottom: var(--ref-padding-s);">
@@ -1734,7 +1734,7 @@
 
                 <!-- Back Photo -->
                 <div class="photo-upload-box" data-side="back">
-                  <input type="file" id="photoBack" accept="image/*" capture="environment" style="display: none;">
+                  <input type="file" id="photoBack" accept="image/*" style="display: none;">
                   <label for="photoBack" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px; padding: var(--ref-padding-m); background: var(--bg-tertiary); border: 2px dashed var(--fill-secondary); border-radius: var(--comp-card-radius); cursor: pointer; transition: all 0.2s;">
                     <div class="photo-preview-img" style="display: none; width: 100%; margin-bottom: var(--ref-padding-s);"></div>
                     <svg class="photo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--fg-tertiary)" stroke-width="2" style="margin-bottom: var(--ref-padding-s);">
@@ -1747,7 +1747,7 @@
 
                 <!-- Left Photo -->
                 <div class="photo-upload-box" data-side="left">
-                  <input type="file" id="photoLeft" accept="image/*" capture="environment" style="display: none;">
+                  <input type="file" id="photoLeft" accept="image/*" style="display: none;">
                   <label for="photoLeft" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px; padding: var(--ref-padding-m); background: var(--bg-tertiary); border: 2px dashed var(--fill-secondary); border-radius: var(--comp-card-radius); cursor: pointer; transition: all 0.2s;">
                     <div class="photo-preview-img" style="display: none; width: 100%; margin-bottom: var(--ref-padding-s);"></div>
                     <svg class="photo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--fg-tertiary)" stroke-width="2" style="margin-bottom: var(--ref-padding-s);">
@@ -1760,7 +1760,7 @@
 
                 <!-- Right Photo -->
                 <div class="photo-upload-box" data-side="right">
-                  <input type="file" id="photoRight" accept="image/*" capture="environment" style="display: none;">
+                  <input type="file" id="photoRight" accept="image/*" style="display: none;">
                   <label for="photoRight" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px; padding: var(--ref-padding-m); background: var(--bg-tertiary); border: 2px dashed var(--fill-secondary); border-radius: var(--comp-card-radius); cursor: pointer; transition: all 0.2s;">
                     <div class="photo-preview-img" style="display: none; width: 100%; margin-bottom: var(--ref-padding-s);"></div>
                     <svg class="photo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--fg-tertiary)" stroke-width="2" style="margin-bottom: var(--ref-padding-s);">
@@ -5317,6 +5317,7 @@
       if (!canvas) return;
 
       deviceCards.forEach(card => {
+        // Desktop drag and drop
         card.addEventListener('dragstart', (e) => {
           e.dataTransfer.setData('deviceType', card.dataset.deviceType);
 
@@ -5342,6 +5343,51 @@
           e.dataTransfer.setDragImage(dragPreview, 40, 40);
 
           setTimeout(() => document.body.removeChild(dragPreview), 0);
+        });
+
+        // Mobile touch support
+        let draggedDeviceType = null;
+        let touchStartY = 0;
+        let isDragging = false;
+
+        card.addEventListener('touchstart', (e) => {
+          touchStartY = e.touches[0].clientY;
+          draggedDeviceType = card.dataset.deviceType;
+          isDragging = false;
+        }, { passive: true });
+
+        card.addEventListener('touchmove', (e) => {
+          const touchMoveY = e.touches[0].clientY;
+          const deltaY = Math.abs(touchMoveY - touchStartY);
+
+          // If moved more than 10px, consider it a drag
+          if (deltaY > 10) {
+            isDragging = true;
+            e.preventDefault(); // Prevent scrolling when dragging
+          }
+        }, { passive: false });
+
+        card.addEventListener('touchend', (e) => {
+          if (isDragging && draggedDeviceType) {
+            const touch = e.changedTouches[0];
+            const canvasRect = canvas.getBoundingClientRect();
+
+            // Check if touch ended on canvas
+            if (touch.clientX >= canvasRect.left &&
+                touch.clientX <= canvasRect.right &&
+                touch.clientY >= canvasRect.top &&
+                touch.clientY <= canvasRect.bottom) {
+
+              // Create synthetic event for placeDevice
+              const syntheticEvent = {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+              };
+              placeDevice(syntheticEvent, draggedDeviceType);
+            }
+          }
+          isDragging = false;
+          draggedDeviceType = null;
         });
       });
 
@@ -5404,8 +5450,8 @@
 
       // Field of view for cameras/doorbells
       if (type === 'camera' || type === 'doorbell') {
-        let fovColor = customColor ? customColor : 0x3B82F6;
-        let fovOpacity = customColor ? 0.6 : 0.15;
+        let fovColor = customColor !== null ? customColor : 0x3B82F6;
+        let fovOpacity = customColor !== null ? 0.5 : 0.2;
         let fovLen, fovRadius;
 
         if (type === 'doorbell') {
