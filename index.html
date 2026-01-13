@@ -4846,23 +4846,25 @@
 
     // Initialize Leaflet Map
     function initGoogleMap() {
-      const defaultLocation = [37.7749, -122.4194]; // San Francisco default
+      const defaultLocation = [40.7580, -73.9855]; // Times Square, New York default
 
       // Create map
       map = L.map('googleMap').setView(defaultLocation, 15);
 
       // Add OpenStreetMap tiles
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors',
         maxZoom: 19
       }).addTo(map);
 
-      // Fix map tile loading issue - invalidate size after container is ready
-      setTimeout(() => {
-        if (map) {
-          map.invalidateSize();
-        }
-      }, 200);
+      // Fix map tile loading issue - invalidate size after tiles are loaded
+      tileLayer.on('load', () => {
+        setTimeout(() => {
+          if (map) {
+            map.invalidateSize();
+          }
+        }, 100);
+      });
 
       // Add draggable marker
       marker = L.marker(defaultLocation, { draggable: true }).addTo(map);
@@ -4978,7 +4980,15 @@
       const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
           if (mutation.target.id === 'planContent' && !mutation.target.classList.contains('hidden')) {
-            setTimeout(initGoogleMap, 100);
+            setTimeout(() => {
+              initGoogleMap();
+              // Fix map size after container is fully rendered
+              setTimeout(() => {
+                if (map) {
+                  map.invalidateSize();
+                }
+              }, 300);
+            }, 100);
             observer.disconnect();
           }
         });
@@ -5170,7 +5180,7 @@
 
       // Re-add existing devices if any
       userPlacedData.forEach(data => {
-        addDeviceToScene(data.pos, data.normal, data.type, userDeviceGroup, 0xFFFFFF);
+        addDeviceToScene(data.pos, data.normal, data.type, userDeviceGroup, 0x3B82F6);
       });
 
       // Animation loop
@@ -5323,33 +5333,57 @@
 
       if (!canvas) return;
 
+      let desktopDragIndicator = null;
+
       deviceCards.forEach(card => {
         // Desktop drag and drop
         card.addEventListener('dragstart', (e) => {
           e.dataTransfer.setData('deviceType', card.dataset.deviceType);
 
-          // Create custom drag image (only icon and circle)
-          const dragPreview = document.createElement('div');
-          dragPreview.style.width = '80px';
-          dragPreview.style.height = '80px';
-          dragPreview.style.background = 'white';
-          dragPreview.style.borderRadius = '50%';
-          dragPreview.style.display = 'flex';
-          dragPreview.style.alignItems = 'center';
-          dragPreview.style.justifyContent = 'center';
-          dragPreview.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-          dragPreview.style.position = 'absolute';
-          dragPreview.style.top = '-1000px';
+          // Create persistent drag indicator for desktop
+          desktopDragIndicator = document.createElement('div');
+          desktopDragIndicator.style.position = 'fixed';
+          desktopDragIndicator.style.width = '60px';
+          desktopDragIndicator.style.height = '60px';
+          desktopDragIndicator.style.background = 'white';
+          desktopDragIndicator.style.borderRadius = '50%';
+          desktopDragIndicator.style.display = 'flex';
+          desktopDragIndicator.style.alignItems = 'center';
+          desktopDragIndicator.style.justifyContent = 'center';
+          desktopDragIndicator.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+          desktopDragIndicator.style.pointerEvents = 'none';
+          desktopDragIndicator.style.zIndex = '9999';
+          desktopDragIndicator.style.left = '-1000px';
 
           const icon = card.querySelector('svg').cloneNode(true);
-          icon.setAttribute('width', '40');
-          icon.setAttribute('height', '40');
-          dragPreview.appendChild(icon);
+          icon.setAttribute('width', '32');
+          icon.setAttribute('height', '32');
+          desktopDragIndicator.appendChild(icon);
 
-          document.body.appendChild(dragPreview);
-          e.dataTransfer.setDragImage(dragPreview, 40, 40);
+          document.body.appendChild(desktopDragIndicator);
 
-          setTimeout(() => document.body.removeChild(dragPreview), 0);
+          // Also create a transparent drag image to hide default
+          const transparentImg = document.createElement('img');
+          transparentImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+          e.dataTransfer.setDragImage(transparentImg, 0, 0);
+        });
+
+        card.addEventListener('drag', (e) => {
+          // Update drag indicator position during drag
+          if (desktopDragIndicator && e.clientX !== 0 && e.clientY !== 0) {
+            desktopDragIndicator.style.left = (e.clientX - 30) + 'px';
+            desktopDragIndicator.style.top = (e.clientY - 30) + 'px';
+          }
+        });
+
+        card.addEventListener('dragend', () => {
+          // Remove drag indicator
+          if (desktopDragIndicator) {
+            if (desktopDragIndicator.parentNode) {
+              document.body.removeChild(desktopDragIndicator);
+            }
+            desktopDragIndicator = null;
+          }
         });
 
         // Mobile touch support
@@ -5478,8 +5512,8 @@
           type: deviceType
         });
 
-        // Add to scene with white FOV
-        addDeviceToScene(pos, normal, deviceType, userDeviceGroup, 0xFFFFFF);
+        // Add to scene with blue FOV (more visible)
+        addDeviceToScene(pos, normal, deviceType, userDeviceGroup, 0x3B82F6);
 
         // Update list
         updatePlacedDevicesList();
@@ -5503,7 +5537,7 @@
       // Field of view for cameras/doorbells
       if (type === 'camera' || type === 'doorbell') {
         let fovColor = customColor !== null ? customColor : 0x3B82F6;
-        let fovOpacity = customColor !== null ? 0.5 : 0.2;
+        let fovOpacity = customColor !== null ? 0.3 : 0.2;
         let fovLen, fovRadius;
 
         if (type === 'doorbell') {
@@ -5731,7 +5765,7 @@
 
       // Add user placed devices
       userPlacedData.forEach(data => {
-        addDeviceToScene(data.pos, data.normal, data.type, userDeviceGroup, 0xFFFFFF);
+        addDeviceToScene(data.pos, data.normal, data.type, userDeviceGroup, 0x3B82F6);
       });
 
       // Animation
