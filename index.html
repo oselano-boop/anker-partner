@@ -2809,6 +2809,7 @@
       // Show confirmation modal
       const modal = document.createElement('div');
       modal.className = 'modal-overlay';
+      modal.id = 'unsubscribeModal';
       modal.innerHTML = `
         <div class="modal-content">
           <div class="modal-body">
@@ -2835,7 +2836,7 @@
       filteredSubscriptions[filteredIndex].status = 'Canceled';
 
       // Close modal
-      document.querySelector('.modal-overlay').remove();
+      document.getElementById('unsubscribeModal')?.remove();
 
       // Re-render
       renderSubscriptions();
@@ -3821,6 +3822,7 @@
       const packageName = servicePlan === 'basic' ? 'Basic Plan' : 'Plus Plan';
       const modal = document.createElement('div');
       modal.className = 'modal-overlay';
+      modal.id = 'serviceSubscriptionModal';
       modal.innerHTML = `
         <div class="modal-content">
           <div class="modal-body">
@@ -3839,7 +3841,7 @@
     // Confirm service subscription
     window.confirmServiceSubscription = function(servicePlan, serviceDeviceSN, serviceUserAccount) {
       // Close modal
-      document.querySelector('.modal-overlay').remove();
+      document.getElementById('serviceSubscriptionModal')?.remove();
 
       // Simulate submission with loading state
       const submitBtn = document.querySelector('#serviceSubscriptionForm button[type="submit"]');
@@ -3913,6 +3915,7 @@
     window.showAddPaymentModal = function() {
       const modal = document.createElement('div');
       modal.className = 'modal-overlay';
+      modal.id = 'addPaymentModal';
       modal.innerHTML = `
         <div class="modal-content">
           <div class="modal-body">
@@ -4002,7 +4005,7 @@
         };
 
         utils.showToast('Payment account added successfully!', 'success');
-        document.querySelector('.modal-overlay').remove();
+        document.getElementById('addPaymentModal')?.remove();
 
         // Refresh view
         showPaymentAccount();
@@ -5840,6 +5843,7 @@
       // Create confirmation modal
       const modal = document.createElement('div');
       modal.className = 'modal-overlay';
+      modal.id = 'sendSolutionModal';
       modal.style.cssText = 'position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 10000;';
       modal.innerHTML = `
         <div class="modal" style="background: white; border-radius: var(--comp-dialog-radius); padding: var(--ref-padding-xl); max-width: 320px; width: 90%;">
@@ -5858,7 +5862,7 @@
 
     function sendSolution() {
       // Close modal
-      document.querySelector('.modal-overlay').remove();
+      document.getElementById('sendSolutionModal')?.remove();
 
       // Show loading
       const btn = document.getElementById('sendSolutionBtn');
