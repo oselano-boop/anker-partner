@@ -1354,7 +1354,7 @@
             <!-- Business Section -->
             <div>
               <div style="font-size: var(--font-caption2); font-weight: var(--font-weight-regular); color: var(--fg-tertiary); margin-bottom: var(--ref-padding-s); padding-left: var(--ref-padding-xs);">Business</div>
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--ref-padding-m);">
+              <div style="display: flex; gap: var(--ref-padding-m); overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px;">
                 <!-- Products -->
                 <div class="app-icon-container" onclick="showTab('productsTab')">
                   <div class="app-icon" style="background: #FFFFFF;">
@@ -1399,6 +1399,17 @@
                     </svg>
                   </div>
                   <div class="app-label">Subscription</div>
+                </div>
+
+                <!-- Customer Management -->
+                <div class="app-icon-container" onclick="openCustomerManagement()">
+                  <div class="app-icon" style="background: #FFFFFF;">
+                    <svg width="24" height="24" viewBox="0 0 1024 1024" fill="var(--fg-primary)">
+                      <path d="M512 512m-160 0a160 160 0 1 0 320 0 160 160 0 1 0-320 0Z"></path>
+                      <path d="M512 704c-181.76 0-329.6 79.36-329.6 176 0 17.664 14.336 32 32 32h595.2c17.664 0 32-14.336 32-32 0-96.64-147.84-176-329.6-176zM160 416c0-70.4 57.6-128 128-128s128 57.6 128 128-57.6 128-128 128-128-57.6-128-128z m256 0c0-17.664 14.336-32 32-32s32 14.336 32 32c0 70.4 57.6 128 128 128s128-57.6 128-128-57.6-128-128-128c-17.664 0-32-14.336-32-32s14.336-32 32-32c105.856 0 192 86.144 192 192s-86.144 192-192 192c-76.672 0-143.488-45.824-173.824-111.488-10.112 3.456-20.736 5.376-31.744 5.376-5.376 0-10.624-0.512-15.744-1.408C389.632 562.176 454.016 608 528 608c105.856 0 192-86.144 192-192s-86.144-192-192-192c-17.664 0-32 14.336-32 32s14.336 32 32 32c70.4 0 128 57.6 128 128s-57.6 128-128 128c-53.376 0-99.456-32.896-118.272-79.488-6.016 16.128-15.36 30.72-27.136 43.136 14.464 50.432 60.928 87.552 115.84 87.552z"></path>
+                    </svg>
+                  </div>
+                  <div class="app-label">Customers</div>
                 </div>
               </div>
             </div>
@@ -2002,6 +2013,28 @@
         <!-- Scrollable Device List -->
         <div id="maintenanceDeviceList" style="flex: 1; padding: var(--ref-padding-l); overflow-y: auto; background-color: var(--bg-primary);">
           <!-- Dynamic device cards -->
+        </div>
+      </div>
+
+      <!-- Customer Management Page (Not a tab, accessed from Home) -->
+      <div id="customerManagement" class="hidden" style="display: flex; flex-direction: column; height: 100%;">
+        <!-- Fixed Search Bar and Filter -->
+        <div style="background-color: var(--bg-secondary); border-bottom: 0.33px solid var(--fill-secondary);">
+          <div style="padding: var(--ref-padding-m) var(--ref-padding-l) 0;">
+            <input type="text" class="form-input" id="customerSearch" placeholder="Search by Account or Nick Name" style="height: 36px;">
+          </div>
+
+          <!-- Status Filter Chips -->
+          <div style="display: flex; gap: var(--spacing-xs); overflow-x: auto; padding: var(--spacing-sm) var(--ref-padding-l); -webkit-overflow-scrolling: touch;">
+            <button class="filter-chip active" data-status="all" onclick="filterCustomersByStatus('all')">All</button>
+            <button class="filter-chip" data-status="Valid" onclick="filterCustomersByStatus('Valid')">Valid</button>
+            <button class="filter-chip" data-status="Invalid" onclick="filterCustomersByStatus('Invalid')">Invalid</button>
+          </div>
+        </div>
+
+        <!-- Scrollable Customer List -->
+        <div id="customerList" style="flex: 1; padding: var(--ref-padding-l); overflow-y: auto; background-color: var(--bg-primary);">
+          <!-- Dynamic customer cards -->
         </div>
       </div>
 
@@ -2880,6 +2913,211 @@
       // Show bottom tabbar (back to primary page)
       showBottomTabbar();
     };
+
+    // ========== Customer Management Functions ==========
+
+    // Customer data (sorted by create time desc by default)
+    const customersData = [
+      {
+        account: 'nicole@example.com',
+        nickName: 'Nicole Zhang',
+        country: 'CN',
+        city: 'Shanghai',
+        status: 'Valid',
+        createTime: '2025-01-10 09:15:30'
+      },
+      {
+        account: 'john.smith@example.com',
+        nickName: 'John Smith',
+        country: 'US',
+        city: 'New York',
+        status: 'Valid',
+        createTime: '2025-01-08 14:22:15'
+      },
+      {
+        account: 'sarah.wilson@techvision.com',
+        nickName: 'Sarah Wilson',
+        country: 'GB',
+        city: 'London',
+        status: 'Invalid',
+        createTime: '2025-01-05 11:30:45'
+      },
+      {
+        account: 'mike.johnson@example.com',
+        nickName: 'Mike Johnson',
+        country: 'CA',
+        city: 'Toronto',
+        status: 'Valid',
+        createTime: '2025-01-03 16:45:20'
+      },
+      {
+        account: 'lisa.brown@greenpower.com',
+        nickName: 'Lisa Brown',
+        country: 'AU',
+        city: 'Sydney',
+        status: 'Valid',
+        createTime: '2024-12-28 10:12:33'
+      },
+      {
+        account: 'robert.garcia@example.com',
+        nickName: 'Robert Garcia',
+        country: 'ES',
+        city: 'Madrid',
+        status: 'Invalid',
+        createTime: '2024-12-25 08:40:17'
+      },
+      {
+        account: 'emma.mueller@example.de',
+        nickName: 'Emma Mueller',
+        country: 'DE',
+        city: 'Berlin',
+        status: 'Valid',
+        createTime: '2024-12-20 15:55:42'
+      },
+      {
+        account: 'david.chen@example.com',
+        nickName: 'David Chen',
+        country: 'SG',
+        city: 'Singapore',
+        status: 'Valid',
+        createTime: '2024-12-15 12:30:28'
+      }
+    ];
+
+    let currentCustomerFilter = 'all';
+    let filteredCustomers = [...customersData];
+
+    // Open Customer Management Page
+    window.openCustomerManagement = function() {
+      // Hide all tab contents
+      Object.values(contents).forEach(c => c.classList.add('hidden'));
+
+      // Show customer management
+      const customerManagement = document.getElementById('customerManagement');
+      customerManagement.classList.remove('hidden');
+
+      // Update navbar
+      document.getElementById('navbarTitle').textContent = 'Customer Management';
+      document.querySelector('#mainAppView .navbar-back').innerHTML = '<span onclick="closeCustomerManagement()" style="cursor: pointer; color: var(--brand-fg-primary);">‹ Back</span>';
+
+      // Hide bottom tabbar (secondary page)
+      hideBottomTabbar();
+
+      // Render customers
+      filterCustomers();
+    };
+
+    // Close Customer Management Page
+    window.closeCustomerManagement = function() {
+      // Hide customer management
+      const customerManagement = document.getElementById('customerManagement');
+      customerManagement.classList.add('hidden');
+
+      // Show home content
+      contents['home'].classList.remove('hidden');
+
+      // Update navbar
+      document.getElementById('navbarTitle').textContent = 'Home';
+      document.querySelector('#mainAppView .navbar-back').innerHTML = '';
+
+      // Show bottom tabbar (back to primary page)
+      showBottomTabbar();
+    };
+
+    // Render customer cards
+    function renderCustomers(customers) {
+      const list = document.getElementById('customerList');
+      list.innerHTML = '';
+
+      if (customers.length === 0) {
+        list.innerHTML = '<div style="text-align: center; padding: var(--ref-padding-xl); color: var(--fg-secondary);">No customers found</div>';
+        return;
+      }
+
+      customers.forEach(customer => {
+        const card = document.createElement('div');
+        card.style.cssText = `
+          background-color: var(--bg-secondary);
+          border-radius: var(--comp-card-radius);
+          padding: var(--ref-padding-m);
+          margin-bottom: var(--ref-padding-m);
+        `;
+
+        const statusColor = customer.status === 'Valid' ? '#34C759' : '#FF4D4F';
+
+        card.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--ref-padding-s);">
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: var(--font-body); font-weight: var(--font-weight-semibold); color: var(--fg-primary); margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${customer.account}</div>
+              <div style="font-size: var(--font-caption2); color: var(--fg-secondary);">${customer.nickName}</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; padding: 4px 12px; background-color: ${statusColor}15; border-radius: 12px;">
+              <span style="width: 6px; height: 6px; background: ${statusColor}; border-radius: 50%;"></span>
+              <span style="font-size: var(--font-caption2); color: ${statusColor}; font-weight: var(--font-weight-semibold);">${customer.status}</span>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--ref-padding-s); margin-top: var(--ref-padding-m);">
+            <div>
+              <div style="font-size: var(--font-caption1); color: var(--fg-tertiary); margin-bottom: 2px;">Country</div>
+              <div style="font-size: var(--font-caption2); color: var(--fg-secondary);">${customer.country}</div>
+            </div>
+            <div>
+              <div style="font-size: var(--font-caption1); color: var(--fg-tertiary); margin-bottom: 2px;">City</div>
+              <div style="font-size: var(--font-caption2); color: var(--fg-secondary);">${customer.city || '-'}</div>
+            </div>
+            <div style="grid-column: 1 / -1;">
+              <div style="font-size: var(--font-caption1); color: var(--fg-tertiary); margin-bottom: 2px;">Create Time</div>
+              <div style="font-size: var(--font-caption2); color: var(--fg-secondary);">${customer.createTime}</div>
+            </div>
+          </div>
+        `;
+
+        list.appendChild(card);
+      });
+    }
+
+    // Filter customers by status
+    window.filterCustomersByStatus = function(status) {
+      currentCustomerFilter = status;
+
+      // Update filter chip states
+      document.querySelectorAll('#customerManagement .filter-chip').forEach(chip => {
+        chip.classList.remove('active');
+        if (chip.dataset.status === status) {
+          chip.classList.add('active');
+        }
+      });
+
+      filterCustomers();
+    };
+
+    // Filter and search customers
+    function filterCustomers() {
+      const searchTerm = document.getElementById('customerSearch').value.toLowerCase();
+
+      let results = [...customersData];
+
+      // Apply status filter
+      if (currentCustomerFilter !== 'all') {
+        results = results.filter(c => c.status === currentCustomerFilter);
+      }
+
+      // Apply search filter
+      if (searchTerm) {
+        results = results.filter(c =>
+          c.account.toLowerCase().includes(searchTerm) ||
+          c.nickName.toLowerCase().includes(searchTerm)
+        );
+      }
+
+      filteredCustomers = results;
+      renderCustomers(results);
+    }
+
+    // Add search event listener for customer management
+    if (document.getElementById('customerSearch')) {
+      document.getElementById('customerSearch').addEventListener('input', filterCustomers);
+    }
 
     // Products Page Functions
     // Function to attach subtab listeners (called dynamically when navbar subtabs are created)
