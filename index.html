@@ -1335,26 +1335,36 @@
       <div id="homeContent" style="display: flex; flex-direction: column; height: 100%;">
         <div class="page-inner" style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
           <!-- Data Dashboard -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--ref-padding-m); margin-bottom: var(--ref-padding-m); flex-shrink: 0;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--ref-padding-m); margin-bottom: var(--ref-padding-m); flex-shrink: 0;">
+            <!-- Current Users Card -->
+            <div class="card" style="text-align: center; padding: var(--ref-padding-l) var(--ref-padding-m);">
+              <div style="font-size: 28px; font-weight: var(--font-weight-semibold); color: var(--brand-fg-primary); margin-bottom: var(--spacing-sm); line-height: 1; opacity: 0.9;">42</div>
+              <div style="font-size: var(--font-caption2); color: var(--fg-secondary); line-height: 1.4;">Current<br>Users</div>
+            </div>
+
             <!-- Registered Devices Card -->
-            <div class="card" style="text-align: center; padding: var(--ref-padding-m) var(--ref-padding-s);">
-              <div style="font-size: 32px; font-weight: var(--font-weight-bold); color: var(--brand-fg-primary); margin-bottom: var(--spacing-xs); line-height: 1;">6</div>
+            <div class="card" style="text-align: center; padding: var(--ref-padding-l) var(--ref-padding-m);">
+              <div style="font-size: 28px; font-weight: var(--font-weight-semibold); color: var(--brand-fg-primary); margin-bottom: var(--spacing-sm); line-height: 1; opacity: 0.9;">156</div>
               <div style="font-size: var(--font-caption2); color: var(--fg-secondary); line-height: 1.4;">Registered<br>Devices</div>
             </div>
 
             <!-- Subscribed Services Card -->
-            <div class="card" style="text-align: center; padding: var(--ref-padding-m) var(--ref-padding-s);">
-              <div style="font-size: 32px; font-weight: var(--font-weight-bold); color: var(--brand-fg-primary); margin-bottom: var(--spacing-xs); line-height: 1;">3</div>
+            <div class="card" style="text-align: center; padding: var(--ref-padding-l) var(--ref-padding-m);">
+              <div style="font-size: 28px; font-weight: var(--font-weight-semibold); color: var(--brand-fg-primary); margin-bottom: var(--spacing-sm); line-height: 1; opacity: 0.9;">28</div>
               <div style="font-size: var(--font-caption2); color: var(--fg-secondary); line-height: 1.4;">Subscribed<br>Services</div>
             </div>
           </div>
 
           <!-- Applications Grid by Category -->
-          <div style="display: flex; flex-direction: column; justify-content: space-evenly; flex: 1; min-height: 0;">
+          <div style="display: flex; flex-direction: column; gap: var(--ref-padding-l); flex: 1; min-height: 0; overflow-y: auto;">
             <!-- Business Section -->
             <div>
-              <div style="font-size: var(--font-caption2); font-weight: var(--font-weight-regular); color: var(--fg-tertiary); margin-bottom: var(--ref-padding-s); padding-left: var(--ref-padding-xs);">Business</div>
-              <div style="display: flex; gap: var(--ref-padding-m); overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px;">
+              <div style="display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--ref-padding-m);">
+                <div style="flex: 1; height: 0.5px; background: var(--fill-secondary);"></div>
+                <div style="font-size: var(--font-caption2); font-weight: var(--font-weight-medium); color: var(--fg-tertiary); white-space: nowrap;">Business</div>
+                <div style="flex: 1; height: 0.5px; background: var(--fill-secondary);"></div>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--ref-padding-l);">
                 <!-- Products -->
                 <div class="app-icon-container" onclick="showTab('productsTab')">
                   <div class="app-icon" style="background: #FFFFFF;">
@@ -1380,6 +1390,16 @@
                   <div class="app-label">Register</div>
                 </div>
 
+                <!-- Customer Management -->
+                <div class="app-icon-container" onclick="openCustomerManagement()">
+                  <div class="app-icon" style="background: #FFFFFF;">
+                    <svg width="24" height="24" viewBox="0 0 1118 1024" fill="var(--fg-primary)">
+                      <path d="M639.252 221.147c-33.039-92.704-117.58-158.869-216.288-158.869-127.357 0-229.556 110.145-229.556 243.655 0 83.443 39.308 156.875 99.055 200.265C157.246 562.939 62.907 701.457 62.907 863.337h64.464c0-160.212 114.778-293.722 261.003-312.08 1.572 0 40.88-3.338 73.898 0h3.144a280.135 280.135 0 0 1 55.641 14.405c-14.403-27.794-23.846-58.972-27.043-92.164-21.647 10.294-45.689 16.011-71.05 16.011-95.911 0-172.954-81.775-172.954-183.577 0-101.801 77.043-183.577 172.954-183.577 77.79 0 143.167 53.794 165.096 128.437 15.68-12.056 32.858-22.067 51.193-29.647zM814.127 606.47c59.747-43.39 99.055-116.822 99.055-200.265 0-135.178-103.773-245.325-231.128-245.325-127.357 0-229.556 110.145-229.556 243.655 0 83.443 39.307 156.874 99.055 200.265-135.218 56.741-229.556 195.259-229.556 357.139h64.464c0-160.212 114.778-293.722 261.003-312.08 1.572 0 40.88-3.338 73.898 0h3.144c143.079 21.696 253.141 151.868 253.141 310.41h66.037c-1.572-160.212-95.911-298.729-229.556-353.801z m-132.073-18.357c-95.911 0-172.954-81.775-172.954-183.577s77.043-183.577 172.954-183.577 172.954 81.775 172.954 183.577c0 101.801-77.043 183.577-172.954 183.577z"></path>
+                    </svg>
+                  </div>
+                  <div class="app-label">Customers</div>
+                </div>
+
                 <!-- Maintenance -->
                 <div class="app-icon-container" onclick="openMaintenanceDetail()">
                   <div class="app-icon" style="background: #FFFFFF;">
@@ -1387,7 +1407,7 @@
                       <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
                     </svg>
                   </div>
-                  <div class="app-label">Maintenance</div>
+                  <div class="app-label">Devices</div>
                 </div>
 
                 <!-- Subscription -->
@@ -1400,83 +1420,61 @@
                   </div>
                   <div class="app-label">Subscription</div>
                 </div>
+              </div>
+            </div>
 
-                <!-- Customer Management -->
-                <div class="app-icon-container" onclick="openCustomerManagement()">
+            <!-- Tools & Others Section -->
+            <div>
+              <div style="display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--ref-padding-m);">
+                <div style="flex: 1; height: 0.5px; background: var(--fill-secondary);"></div>
+                <div style="font-size: var(--font-caption2); font-weight: var(--font-weight-medium); color: var(--fg-tertiary); white-space: nowrap;">Tools & Others</div>
+                <div style="flex: 1; height: 0.5px; background: var(--fill-secondary);"></div>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--ref-padding-l);">
+                <!-- 3D Plan -->
+                <div class="app-icon-container" onclick="showTab('planTab')">
                   <div class="app-icon" style="background: #FFFFFF;">
                     <svg width="24" height="24" viewBox="0 0 1024 1024" fill="var(--fg-primary)">
-                      <path d="M512 512m-160 0a160 160 0 1 0 320 0 160 160 0 1 0-320 0Z"></path>
-                      <path d="M512 704c-181.76 0-329.6 79.36-329.6 176 0 17.664 14.336 32 32 32h595.2c17.664 0 32-14.336 32-32 0-96.64-147.84-176-329.6-176zM160 416c0-70.4 57.6-128 128-128s128 57.6 128 128-57.6 128-128 128-128-57.6-128-128z m256 0c0-17.664 14.336-32 32-32s32 14.336 32 32c0 70.4 57.6 128 128 128s128-57.6 128-128-57.6-128-128-128c-17.664 0-32-14.336-32-32s14.336-32 32-32c105.856 0 192 86.144 192 192s-86.144 192-192 192c-76.672 0-143.488-45.824-173.824-111.488-10.112 3.456-20.736 5.376-31.744 5.376-5.376 0-10.624-0.512-15.744-1.408C389.632 562.176 454.016 608 528 608c105.856 0 192-86.144 192-192s-86.144-192-192-192c-17.664 0-32 14.336-32 32s14.336 32 32 32c70.4 0 128 57.6 128 128s-57.6 128-128 128c-53.376 0-99.456-32.896-118.272-79.488-6.016 16.128-15.36 30.72-27.136 43.136 14.464 50.432 60.928 87.552 115.84 87.552z"></path>
+                      <path d="M864.757183 264.990257l-319.895751-191.573154c-10.116405-6.057973-21.48943-9.086959-32.861432-9.086959a63.915705 63.915705 0 0 0-32.861432 9.086959l-319.895751 191.573154a63.961754 63.961754 0 0 0-31.099298 54.873771v390.954133a63.960731 63.960731 0 0 0 31.980365 55.391565l319.895751 184.692442c9.894348 5.713119 20.937868 8.569166 31.980365 8.569166s22.086018-2.856048 31.980365-8.569166l319.895751-184.692442a63.959707 63.959707 0 0 0 31.980365-55.391565v-390.954133a63.959707 63.959707 0 0 0-31.099298-54.873771zM512 128.289851l288.778032 172.937725-289.062511 173.228343-288.603047-173.161828 288.887526-173.00424z m-319.895751 228.989322l287.621697 172.573427v347.022575L192.104249 710.817138V357.279173zM543.686676 877.214912V529.862833l288.209075-172.71669v353.670995L543.686676 877.214912z"></path>
                     </svg>
                   </div>
-                  <div class="app-label">Customers</div>
+                  <div class="app-label">3D Plan</div>
                 </div>
-              </div>
-            </div>
 
-            <!-- Tools & Resources Section -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--ref-padding-l);">
-              <!-- Tools -->
-              <div>
-                <div style="font-size: var(--font-caption2); font-weight: var(--font-weight-regular); color: var(--fg-tertiary); margin-bottom: var(--ref-padding-s); padding-left: var(--ref-padding-xs);">Tools</div>
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--ref-padding-m);">
-                  <!-- 3D Plan -->
-                  <div class="app-icon-container" onclick="showTab('planTab')">
-                    <div class="app-icon" style="background: #FFFFFF;">
-                      <svg width="24" height="24" viewBox="0 0 1024 1024" fill="var(--fg-primary)">
-                        <path d="M864.757183 264.990257l-319.895751-191.573154c-10.116405-6.057973-21.48943-9.086959-32.861432-9.086959a63.915705 63.915705 0 0 0-32.861432 9.086959l-319.895751 191.573154a63.961754 63.961754 0 0 0-31.099298 54.873771v390.954133a63.960731 63.960731 0 0 0 31.980365 55.391565l319.895751 184.692442c9.894348 5.713119 20.937868 8.569166 31.980365 8.569166s22.086018-2.856048 31.980365-8.569166l319.895751-184.692442a63.959707 63.959707 0 0 0 31.980365-55.391565v-390.954133a63.959707 63.959707 0 0 0-31.099298-54.873771zM512 128.289851l288.778032 172.937725-289.062511 173.228343-288.603047-173.161828 288.887526-173.00424z m-319.895751 228.989322l287.621697 172.573427v347.022575L192.104249 710.817138V357.279173zM543.686676 877.214912V529.862833l288.209075-172.71669v353.670995L543.686676 877.214912z"></path>
-                      </svg>
-                    </div>
-                    <div class="app-label">3D Plan</div>
+                <!-- WiFi Signal -->
+                <div class="app-icon-container">
+                  <div class="app-icon" style="background: #FFFFFF;">
+                    <svg width="24" height="24" viewBox="0 0 1024 1024" fill="var(--fg-primary)">
+                      <path d="M723 620.5C666.8 571.6 593.4 542 513 542s-153.8 29.6-210.1 78.6c-3.2 2.8-3.6 7.8-0.8 11.2l36 42.9c2.9 3.4 8 3.8 11.4 0.9C393.1 637.2 450.3 614 513 614s119.9 23.2 163.5 61.5c3.4 2.9 8.5 2.5 11.4-0.9l36-42.9c2.8-3.3 2.4-8.3-0.9-11.2zM840.4 480.4C751.7 406.5 637.6 362 513 362s-238.7 44.5-327.5 118.4c-3.4 2.8-3.8 7.9-1 11.3l36 42.9c2.8 3.4 7.9 3.8 11.2 1C308 472.2 406.1 434 513 434s205 38.2 281.2 101.6c3.4 2.8 8.4 2.4 11.2-1l36-42.9c2.8-3.4 2.4-8.5-1-11.3z"></path>
+                      <path d="M957.1 341.4C835.7 241.8 680.3 182 511 182c-168.2 0-322.6 59-443.7 157.4-3.5 2.8-4 7.9-1.1 11.4l36 42.9c2.8 3.3 7.8 3.8 11.1 1.1C222 306.7 360.3 254 511 254c151.8 0 291 53.5 400 142.7 3.4 2.8 8.4 2.3 11.2-1.1l36-42.9c2.9-3.4 2.4-8.5-1.1-11.3z"></path>
+                      <path d="M512 778m-64 0a64 64 0 1 0 128 0 64 64 0 1 0-128 0Z"></path>
+                    </svg>
                   </div>
-
-                  <!-- WiFi Signal -->
-                  <div class="app-icon-container">
-                    <div class="app-icon" style="background: #FFFFFF;">
-                      <svg width="24" height="24" viewBox="0 0 1024 1024" fill="var(--fg-primary)">
-                        <path d="M723 620.5C666.8 571.6 593.4 542 513 542s-153.8 29.6-210.1 78.6c-3.2 2.8-3.6 7.8-0.8 11.2l36 42.9c2.9 3.4 8 3.8 11.4 0.9C393.1 637.2 450.3 614 513 614s119.9 23.2 163.5 61.5c3.4 2.9 8.5 2.5 11.4-0.9l36-42.9c2.8-3.3 2.4-8.3-0.9-11.2zM840.4 480.4C751.7 406.5 637.6 362 513 362s-238.7 44.5-327.5 118.4c-3.4 2.8-3.8 7.9-1 11.3l36 42.9c2.8 3.4 7.9 3.8 11.2 1C308 472.2 406.1 434 513 434s205 38.2 281.2 101.6c3.4 2.8 8.4 2.4 11.2-1l36-42.9c2.8-3.4 2.4-8.5-1-11.3z"></path>
-                        <path d="M957.1 341.4C835.7 241.8 680.3 182 511 182c-168.2 0-322.6 59-443.7 157.4-3.5 2.8-4 7.9-1.1 11.4l36 42.9c2.8 3.3 7.8 3.8 11.1 1.1C222 306.7 360.3 254 511 254c151.8 0 291 53.5 400 142.7 3.4 2.8 8.4 2.3 11.2-1.1l36-42.9c2.9-3.4 2.4-8.5-1.1-11.3z"></path>
-                        <path d="M512 778m-64 0a64 64 0 1 0 128 0 64 64 0 1 0-128 0Z"></path>
-                      </svg>
-                    </div>
-                    <div class="app-label">WiFi Signal</div>
-                  </div>
+                  <div class="app-label">WiFi Signal</div>
                 </div>
-              </div>
 
-              <!-- Resources -->
-              <div>
-                <div style="font-size: var(--font-caption2); font-weight: var(--font-weight-regular); color: var(--fg-tertiary); margin-bottom: var(--ref-padding-s); padding-left: var(--ref-padding-xs);">Resources</div>
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--ref-padding-m);">
-                  <!-- Materials -->
-                  <div class="app-icon-container">
-                    <div class="app-icon" style="background: #FFFFFF;">
-                      <svg t="1767755305659" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="30375" width="24" height="24">
-                        <path d="M647.9305 260.951538H172.144332a27.187781 27.187781 0 0 0 0 54.339019h475.786168a27.187781 27.187781 0 0 0 0-54.339019z m27.04161 239.902933a27.114696 27.114696 0 0 0-27.04161-27.187781H172.144332a27.187781 27.187781 0 0 0 0 54.375563h475.786168a27.078153 27.078153 0 0 0 27.04161-27.370495zM172.144332 664.383128a27.187781 27.187781 0 0 0 0 54.339019h259.818714a27.187781 27.187781 0 0 0 0-54.339019H172.144332z m261.64585 282.767539H151.314984a61.355221 61.355221 0 0 1-61.026337-61.501391V115.913497a61.391764 61.391764 0 0 1 61.026337-61.537935h565.315823a61.391764 61.391764 0 0 1 61.026337 61.537935v384.758261a27.04161 27.04161 0 1 0 54.08322 0V115.913497A115.803868 115.803868 0 0 0 716.630807 0H151.314984A115.584612 115.584612 0 0 0 36.205427 115.913497v769.553065a115.548069 115.548069 0 0 0 115.109557 115.876954h282.475198a27.187781 27.187781 0 0 0 0-54.375562z m541.928485-354.720148a26.785811 26.785811 0 0 0-24.849047-3.179216l-194.407252 72.500749a21.231318 21.231318 0 0 0-4.750553 2.631076h-144.709157a86.533153 86.533153 0 0 0-86.240811 86.569695v45.020626a86.935122 86.935122 0 0 0 54.814075 80.393977v63.949753a83.427022 83.427022 0 0 0 82.951966 83.646278h40.562415a83.500107 83.500107 0 0 0 83.317394-83.646278v-47.176647l168.461923 62.853473a28.028264 28.028264 0 0 0 9.501106 1.680965 26.054957 26.054957 0 0 0 15.347941-4.860182 27.187781 27.187781 0 0 0 11.693669-22.291057V614.64849a27.187781 27.187781 0 0 0-11.693669-22.400685z m-400.8736 158.193419a32.340304 32.340304 0 0 1 32.157591-32.230676h131.919206v109.62815h-131.919206a32.376847 32.376847 0 0 1-32.157591-32.230676v-45.166798z m148.728856 189.4009a24.447077 24.447077 0 0 1-24.48362 24.337449h-40.562415a24.337449 24.337449 0 0 1-24.118193-24.337449v-42.133752h89.164228v42.279922z m209.755193-48.784527l-140.689459-52.365712v-133.052031l140.689459-52.365713v237.783456z" p-id="30376"></path>
-                      </svg>
-                    </div>
-                    <div class="app-label">Materials</div>
+                <!-- Materials -->
+                <div class="app-icon-container">
+                  <div class="app-icon" style="background: #FFFFFF;">
+                    <svg t="1767755305659" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="30375" width="24" height="24">
+                      <path d="M647.9305 260.951538H172.144332a27.187781 27.187781 0 0 0 0 54.339019h475.786168a27.187781 27.187781 0 0 0 0-54.339019z m27.04161 239.902933a27.114696 27.114696 0 0 0-27.04161-27.187781H172.144332a27.187781 27.187781 0 0 0 0 54.375563h475.786168a27.078153 27.078153 0 0 0 27.04161-27.370495zM172.144332 664.383128a27.187781 27.187781 0 0 0 0 54.339019h259.818714a27.187781 27.187781 0 0 0 0-54.339019H172.144332z m261.64585 282.767539H151.314984a61.355221 61.355221 0 0 1-61.026337-61.501391V115.913497a61.391764 61.391764 0 0 1 61.026337-61.537935h565.315823a61.391764 61.391764 0 0 1 61.026337 61.537935v384.758261a27.04161 27.04161 0 1 0 54.08322 0V115.913497A115.803868 115.803868 0 0 0 716.630807 0H151.314984A115.584612 115.584612 0 0 0 36.205427 115.913497v769.553065a115.548069 115.548069 0 0 0 115.109557 115.876954h282.475198a27.187781 27.187781 0 0 0 0-54.375562z m541.928485-354.720148a26.785811 26.785811 0 0 0-24.849047-3.179216l-194.407252 72.500749a21.231318 21.231318 0 0 0-4.750553 2.631076h-144.709157a86.533153 86.533153 0 0 0-86.240811 86.569695v45.020626a86.935122 86.935122 0 0 0 54.814075 80.393977v63.949753a83.427022 83.427022 0 0 0 82.951966 83.646278h40.562415a83.500107 83.500107 0 0 0 83.317394-83.646278v-47.176647l168.461923 62.853473a28.028264 28.028264 0 0 0 9.501106 1.680965 26.054957 26.054957 0 0 0 15.347941-4.860182 27.187781 27.187781 0 0 0 11.693669-22.291057V614.64849a27.187781 27.187781 0 0 0-11.693669-22.400685z m-400.8736 158.193419a32.340304 32.340304 0 0 1 32.157591-32.230676h131.919206v109.62815h-131.919206a32.376847 32.376847 0 0 1-32.157591-32.230676v-45.166798z m148.728856 189.4009a24.447077 24.447077 0 0 1-24.48362 24.337449h-40.562415a24.337449 24.337449 0 0 1-24.118193-24.337449v-42.133752h89.164228v42.279922z m209.755193-48.784527l-140.689459-52.365712v-133.052031l140.689459-52.365713v237.783456z" p-id="30376"></path>
+                    </svg>
                   </div>
-
-                  <!-- Training -->
-                  <div class="app-icon-container">
-                    <div class="app-icon" style="background: #FFFFFF;">
-                      <svg t="1767755339985" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="33270" width="24" height="24">
-                        <path d="M488.96 91.0848h56.32v113.4592h-56.32zM217.7536 922.22464l73.1136-132.16768 49.28 27.264-73.10848 132.16768zM688.29184 816.32768l49.28-27.264 73.63072 133.10976-49.28 27.25888z" fill="#4C4C4C" p-id="33271"></path>
-                        <path d="M849.5616 766.72H184.6784a89.7536 89.7536 0 0 1-89.6-89.6V266.24a89.7024 89.7024 0 0 1 89.6-89.6h664.8832a89.7024 89.7024 0 0 1 89.6 89.6v411.0848a89.7536 89.7536 0 0 1-89.6 89.3952zM184.6784 232.7552a33.28 33.28 0 0 0-33.28 33.28v411.0848a33.3312 33.3312 0 0 0 33.28 33.28h664.8832a33.3312 33.3312 0 0 0 33.28-33.28V266.24a33.28 33.28 0 0 0-33.28-33.28z" fill="#4C4C4C" p-id="33272"></path>
-                        <path d="M313.856 360.5504h412.3648v56.32H313.856zM313.856 531.7632h412.3648v56.32H313.856z" fill="#4C4C4C" p-id="33273"></path>
-                      </svg>
-                    </div>
-                    <div class="app-label">Training</div>
-                  </div>
+                  <div class="app-label">Materials</div>
                 </div>
-              </div>
-            </div>
 
-            <!-- Rewards & Community Section -->
-            <div>
-              <div style="font-size: var(--font-caption2); font-weight: var(--font-weight-regular); color: var(--fg-tertiary); margin-bottom: var(--ref-padding-s); padding-left: var(--ref-padding-xs);">Rewards & Community</div>
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--ref-padding-m);">
+                <!-- Training -->
+                <div class="app-icon-container">
+                  <div class="app-icon" style="background: #FFFFFF;">
+                    <svg t="1767755339985" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="33270" width="24" height="24">
+                      <path d="M488.96 91.0848h56.32v113.4592h-56.32zM217.7536 922.22464l73.1136-132.16768 49.28 27.264-73.10848 132.16768zM688.29184 816.32768l49.28-27.264 73.63072 133.10976-49.28 27.25888z" fill="#4C4C4C" p-id="33271"></path>
+                      <path d="M849.5616 766.72H184.6784a89.7536 89.7536 0 0 1-89.6-89.6V266.24a89.7024 89.7024 0 0 1 89.6-89.6h664.8832a89.7024 89.7024 0 0 1 89.6 89.6v411.0848a89.7536 89.7536 0 0 1-89.6 89.3952zM184.6784 232.7552a33.28 33.28 0 0 0-33.28 33.28v411.0848a33.3312 33.3312 0 0 0 33.28 33.28h664.8832a33.3312 33.3312 0 0 0 33.28-33.28V266.24a33.28 33.28 0 0 0-33.28-33.28z" fill="#4C4C4C" p-id="33272"></path>
+                      <path d="M313.856 360.5504h412.3648v56.32H313.856zM313.856 531.7632h412.3648v56.32H313.856z" fill="#4C4C4C" p-id="33273"></path>
+                    </svg>
+                  </div>
+                  <div class="app-label">Training</div>
+                </div>
+
                 <!-- Points Mall -->
                 <div class="app-icon-container">
                   <div class="app-icon" style="background: #FFFFFF;">
@@ -1663,23 +1661,28 @@
         <div id="planHome" style="flex: 1; overflow-y: auto;">
           <div class="page-inner">
             <!-- Create New Solution Card -->
-            <div class="card" onclick="startNewSolution()" style="margin-bottom: var(--ref-padding-l); cursor: pointer; padding: var(--ref-padding-xl); text-align: center; transition: all 0.2s; border: 2px solid var(--brand-fg-primary);" onmouseover="this.style.background='var(--brand-fill-tertiary)'" onmouseout="this.style.background='white'">
-              <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="64" height="64" style="margin: 0 auto var(--ref-padding-m); color: #005D8E;">
-                <path d="M474.112 87.893333l390.371556 205.425778 4.664888 7.68v152.632889l-10.012444-1.479111a236.600889 236.600889 0 0 0-35.100444-2.616889l-8.704-8.647111V359.822222L494.250667 528.327111v335.587556l116.451555-63.032889 11.548445 3.185778c6.087111 10.24 12.970667 19.911111 20.48 29.127111l6.712889 8.135111-175.217778 94.72H465.92l-390.371556-211.000889-4.551111-7.623111v-416.426667l4.608-7.68 390.428445-205.425778h8.078222zM124.700444 359.765333v330.296889l321.080889 173.852445v-335.644445L124.700444 359.765333z m345.429334-215.608889L150.300444 317.44 469.902222 480.028444l319.829334-167.992888-319.601778-167.822223z" fill="#005D8E"></path>
-                <path d="M921.713778 695.523556h-237.624889a22.641778 22.641778 0 1 1 0-45.283556h237.624889a22.641778 22.641778 0 0 1 0 45.283556z m-118.840889 118.784a22.641778 22.641778 0 0 1-22.584889-22.641778V554.097778a22.641778 22.641778 0 0 1 45.226667 0v237.624889a22.641778 22.641778 0 0 1-22.641778 22.641777z" fill="#005D8E"></path>
-                <path d="M802.872889 525.653333a28.444444 28.444444 0 0 1 28.444444 28.444445l-0.056889 90.282666 90.453334 0.056889a28.444444 28.444444 0 1 1 0 56.888889l-90.453334-0.113778v90.453334a28.444444 28.444444 0 0 1-5.347555 16.725333l-2.901333 3.413333a28.444444 28.444444 0 0 1-48.526223-20.138666v-90.453334l-90.453333 0.056889a28.444444 28.444444 0 0 1-27.875556-23.324444l-0.512-5.12a28.444444 28.444444 0 0 1 28.444445-28.387556h90.339555l0.056889-90.396444a28.444444 28.444444 0 0 1 23.324445-27.932445l5.12-0.455111z m16.896 175.616h-33.848889l0.113778 90.453334c0 7.964444 5.575111 14.620444 13.027555 16.384l3.811556 0.455111a16.839111 16.839111 0 0 0 16.896-16.896v-90.396445z m0-45.283555h-33.792v33.735111h33.792v-33.735111z m-45.340445-0.056889l-90.339555 0.056889a16.839111 16.839111 0 0 0-16.440889 13.027555l-0.398222 3.868445c0 9.272889 7.509333 16.839111 16.839111 16.839111h90.339555v-33.792z m56.888889 0v33.792h90.453334c7.964444 0 14.620444-5.518222 16.384-12.970667l0.398222-3.868444a16.839111 16.839111 0 0 0-16.839111-16.896l-90.453334-0.056889z m-28.444444-118.727111a16.839111 16.839111 0 0 0-16.839111 16.839111l-0.113778 90.339555h33.848889V554.097778a16.839111 16.839111 0 0 0-13.027556-16.384l-3.868444-0.455111z" fill="#005D8E"></path>
-              </svg>
-              <h3 style="font-size: var(--font-title1); font-weight: var(--font-weight-bold); color: var(--brand-fg-primary);">Create New Solution</h3>
+            <div class="card" onclick="startNewSolution()" style="margin-bottom: var(--ref-padding-l); cursor: pointer; position: relative; overflow: hidden; transition: all 0.2s; aspect-ratio: 16/9; background-image: url('images/3d-plan-construction.jpg'); background-size: cover; background-position: center;" onmouseover="this.style.opacity='0.95'" onmouseout="this.style.opacity='1'">
+              <!-- Overlay for better text readability -->
+              <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(0, 93, 142, 0.25) 0%, rgba(0, 93, 142, 0.35) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: var(--ref-padding-xl);">
+                <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="64" height="64" style="margin-bottom: var(--ref-padding-m); color: white; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));">
+                  <path d="M474.112 87.893333l390.371556 205.425778 4.664888 7.68v152.632889l-10.012444-1.479111a236.600889 236.600889 0 0 0-35.100444-2.616889l-8.704-8.647111V359.822222L494.250667 528.327111v335.587556l116.451555-63.032889 11.548445 3.185778c6.087111 10.24 12.970667 19.911111 20.48 29.127111l6.712889 8.135111-175.217778 94.72H465.92l-390.371556-211.000889-4.551111-7.623111v-416.426667l4.608-7.68 390.428445-205.425778h8.078222zM124.700444 359.765333v330.296889l321.080889 173.852445v-335.644445L124.700444 359.765333z m345.429334-215.608889L150.300444 317.44 469.902222 480.028444l319.829334-167.992888-319.601778-167.822223z" fill="white"></path>
+                  <path d="M921.713778 695.523556h-237.624889a22.641778 22.641778 0 1 1 0-45.283556h237.624889a22.641778 22.641778 0 0 1 0 45.283556z m-118.840889 118.784a22.641778 22.641778 0 0 1-22.584889-22.641778V554.097778a22.641778 22.641778 0 0 1 45.226667 0v237.624889a22.641778 22.641778 0 0 1-22.641778 22.641777z" fill="white"></path>
+                  <path d="M802.872889 525.653333a28.444444 28.444444 0 0 1 28.444444 28.444445l-0.056889 90.282666 90.453334 0.056889a28.444444 28.444444 0 1 1 0 56.888889l-90.453334-0.113778v90.453334a28.444444 28.444444 0 0 1-5.347555 16.725333l-2.901333 3.413333a28.444444 28.444444 0 0 1-48.526223-20.138666v-90.453334l-90.453333 0.056889a28.444444 28.444444 0 0 1-27.875556-23.324444l-0.512-5.12a28.444444 28.444444 0 0 1 28.444445-28.387556h90.339555l0.056889-90.396444a28.444444 28.444444 0 0 1 23.324445-27.932445l5.12-0.455111z m16.896 175.616h-33.848889l0.113778 90.453334c0 7.964444 5.575111 14.620444 13.027555 16.384l3.811556 0.455111a16.839111 16.839111 0 0 0 16.896-16.896v-90.396445z m0-45.283555h-33.792v33.735111h33.792v-33.735111z m-45.340445-0.056889l-90.339555 0.056889a16.839111 16.839111 0 0 0-16.440889 13.027555l-0.398222 3.868445c0 9.272889 7.509333 16.839111 16.839111 16.839111h90.339555v-33.792z m56.888889 0v33.792h90.453334c7.964444 0 14.620444-5.518222 16.384-12.970667l0.398222-3.868444a16.839111 16.839111 0 0 0-16.839111-16.896l-90.453334-0.056889z m-28.444444-118.727111a16.839111 16.839111 0 0 0-16.839111 16.839111l-0.113778 90.339555h33.848889V554.097778a16.839111 16.839111 0 0 0-13.027556-16.384l-3.868444-0.455111z" fill="white"></path>
+                </svg>
+                <h3 style="font-size: var(--font-title1); font-weight: var(--font-weight-bold); color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.5);">Create New Solution</h3>
+              </div>
             </div>
 
             <!-- View History Card -->
-            <div class="card" onclick="showModelHistory()" style="cursor: pointer; padding: var(--ref-padding-xl); text-align: center; transition: all 0.2s;" onmouseover="this.style.background='var(--fill-tertiary)'" onmouseout="this.style.background='white'">
-              <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="var(--fg-tertiary)" style="margin: 0 auto var(--ref-padding-m);">
-                <path d="M409.709989 71.493018h204.879992v51.195001H409.709989z"></path>
-                <path d="M798.871985 1024H225.327995c-70.593106 0-127.987501-57.394395-127.987501-127.987501V199.480519c0-70.593106 57.394395-127.987501 127.987501-127.987501h47.795333v51.195001h-47.795333c-42.39586 0-76.792501 34.496631-76.7925 76.7925V895.912509c0 42.39586 34.496631 76.792501 76.7925 76.7925h573.54399c42.39586 0 76.792501-34.496631 76.792501-76.7925V199.480519c0-42.39586-34.496631-76.792501-76.792501-76.7925h-47.795332V71.493018h47.795332c70.593106 0 127.987501 57.394395 127.987501 127.987501V895.912509c0.09999 70.693096-57.394395 128.087491-127.987501 128.087491z"></path>
-                <path d="M317.319012 0.09999h51.195v184.381994h-51.195zM657.785763 0.09999H708.980764v184.381994h-51.195001zM268.623767 319.368812h480.553071v51.195H268.623767zM268.623767 522.44898h480.553071v51.195H268.623767zM268.623767 729.828728h316.669075v51.195H268.623767z"></path>
-              </svg>
-              <h3 style="font-size: var(--font-title1); font-weight: var(--font-weight-bold); color: var(--fg-primary);">Solution History</h3>
+            <div class="card" onclick="showModelHistory()" style="cursor: pointer; position: relative; overflow: hidden; transition: all 0.2s; aspect-ratio: 16/9; background-image: url('images/solution-history.jpg'); background-size: cover; background-position: center;" onmouseover="this.style.opacity='0.95'" onmouseout="this.style.opacity='1'">
+              <!-- Overlay for better text readability -->
+              <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(128, 128, 128, 0.25) 0%, rgba(128, 128, 128, 0.35) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: var(--ref-padding-xl);">
+                <svg viewBox="0 0 1060 1024" xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="white" style="margin-bottom: var(--ref-padding-m); filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));">
+                  <path d="M515.762599 958.870845c246.966761 0 447.17029-200.203529 447.17029-447.170289 0-246.966761-200.203529-447.17029-447.17029-447.17029-246.966761 0-447.17029 200.203529-447.170289 447.17029 0 246.966761 200.203529 447.17029 447.170289 447.170289z m0 63.88147c-282.251292 0-511.051759-228.800468-511.051759-511.051759 0-282.251292 228.800468-511.051759 511.051759-511.05176 282.238815 0 511.051759 228.800468 511.05176 511.05176 0 282.251292-228.800468 511.051759-511.05176 511.051759z m0 0"></path>
+                  <path d="M547.703334 192.293206c0-17.642265-14.29847-31.940735-31.940735-31.940735s-31.940735 14.29847-31.940735 31.940735v343.362901c0 9.195438 3.955161 17.954187 10.85486 24.017935l191.644409 167.688859c13.262891 11.640901 33.462911 10.318355 45.103812-2.93206 11.640901-13.262891 10.318355-33.462911-2.93206-45.103811L547.703334 521.158008V192.293206z m0 0"></path>
+                </svg>
+                <h3 style="font-size: var(--font-title1); font-weight: var(--font-weight-bold); color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.5);">Solution History</h3>
+              </div>
             </div>
           </div>
         </div>
@@ -5095,7 +5098,8 @@
       // Add OpenStreetMap tiles
       const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors',
-        maxZoom: 19
+        maxZoom: 19,
+        keepBuffer: 8  // Keep more tiles loaded to reduce grey tiles
       }).addTo(map);
 
       // Fix map tile loading issue - invalidate size after tiles are loaded
@@ -5106,6 +5110,13 @@
           }
         }, 100);
       });
+
+      // Also invalidate size immediately after map creation
+      setTimeout(() => {
+        if (map) {
+          map.invalidateSize();
+        }
+      }, 200);
 
       // Add draggable marker
       marker = L.marker(defaultLocation, { draggable: true }).addTo(map);
@@ -5356,6 +5367,13 @@
       // Restore navbar
       document.getElementById('navbarTitle').textContent = 'Step 1/3: House Model';
       document.querySelector('#mainAppView .navbar-back').innerHTML = '<span onclick="backToPlanHome()" style="cursor: pointer; color: var(--brand-fg-primary);">‹ Back</span>';
+
+      // Fix map tile loading - invalidate size after container is visible
+      setTimeout(() => {
+        if (map) {
+          map.invalidateSize();
+        }
+      }, 100);
     }
 
     // Three.js 3D Scene
@@ -6161,6 +6179,13 @@
 
       // Hide bottom tabbar (entering secondary page)
       hideBottomTabbar();
+
+      // Fix map tile loading - invalidate size after container is visible
+      setTimeout(() => {
+        if (map) {
+          map.invalidateSize();
+        }
+      }, 100);
     }
 
     function backToPlanHome() {
