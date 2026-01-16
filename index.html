@@ -1237,18 +1237,20 @@
             <textarea class="form-input" id="appCompanyDesc" placeholder="Describe your company" rows="1" style="resize: none; overflow: hidden; line-height: 1.5; padding: 11px var(--ref-padding-l); height: auto;"></textarea>
           </div>
 
-          <!-- Sales Region -->
+          <!-- Country -->
           <div class="form-group">
-            <label class="form-label form-label-required">Sales Region</label>
-            <select class="form-input" id="appCountry" disabled>
-              <option value="USA" selected>United States</option>
+            <label class="form-label form-label-required">Country</label>
+            <select class="form-input" id="appCountry">
+              <option value="US" selected>US</option>
+              <option value="Others">Others</option>
             </select>
             <div class="form-error"></div>
           </div>
 
+          <!-- City -->
           <div class="form-group">
-            <label class="form-label form-label-required">State and City</label>
-            <input type="text" class="form-input" id="appLocation" placeholder="e.g., CA - Los Angeles, SF">
+            <label class="form-label">City</label>
+            <input type="text" class="form-input" id="appCity" placeholder="e.g., Los Angeles">
             <div class="form-error"></div>
           </div>
 
@@ -1907,6 +1909,19 @@
         <div id="deviceRegSubContent" style="flex: 1; overflow-y: auto;">
           <div class="page-inner">
             <form id="deviceRegistrationForm" onsubmit="submitDeviceRegistration(event)">
+              <!-- Registration Reminder -->
+              <div class="info-card" style="margin-bottom: var(--ref-padding-l); padding: var(--ref-padding-m); background-color: var(--bg-tertiary); border-radius: var(--comp-card-radius); display: flex; gap: var(--ref-padding-s); align-items: flex-start;">
+                <!-- Info Icon -->
+                <svg width="16" height="16" viewBox="0 0 1024 1024" style="flex-shrink: 0; margin-top: 1px;" fill="var(--fg-tertiary)">
+                  <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"/>
+                  <path d="M464 336a48 48 0 1 0 96 0 48 48 0 1 0-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z" fill="var(--fg-tertiary)"/>
+                </svg>
+                <!-- Text Content -->
+                <span style="flex: 1; font-size: var(--font-caption2); color: var(--fg-tertiary);">
+                  Device must be bound to user account before registration.
+                </span>
+              </div>
+
               <div class="form-group">
                 <label class="form-label form-label-required" style="text-align: left;">Device SN</label>
                 <div style="display: flex; gap: var(--spacing-sm);">
@@ -2858,11 +2873,27 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
-            <button class="btn btn-danger" onclick="executeUnsubscribe(${originalIndex}, ${index})">Unsubscribe</button>
+            <button class="btn btn-danger" id="unsubscribeConfirmBtn" disabled style="opacity: 0.5; cursor: not-allowed;" onclick="executeUnsubscribe(${originalIndex}, ${index})">Unsubscribe (3s)</button>
           </div>
         </div>
       `;
       document.body.appendChild(modal);
+
+      // Start countdown
+      let countdown = 3;
+      const btn = document.getElementById('unsubscribeConfirmBtn');
+      const countdownTimer = setInterval(() => {
+        countdown--;
+        btn.textContent = `Unsubscribe (${countdown}s)`;
+
+        if (countdown === 0) {
+          clearInterval(countdownTimer);
+          btn.disabled = false;
+          btn.textContent = 'Unsubscribe';
+          btn.style.opacity = '1';
+          btn.style.cursor = 'pointer';
+        }
+      }, 1000);
     };
 
     // Execute unsubscribe
@@ -4877,7 +4908,7 @@
         const email = document.getElementById('appEmail').value;
         const companyName = document.getElementById('appCompanyName').value;
         const country = document.getElementById('appCountry').value;
-        const location = document.getElementById('appLocation').value;
+        const city = document.getElementById('appCity').value;
         const businessLicense = document.getElementById('businessLicense').files[0];
         const salesLicense = document.getElementById('salesLicense').files[0];
         const insurance = document.getElementById('insurance').files[0];
@@ -4904,10 +4935,7 @@
           hasError = true;
         }
 
-        if (!location) {
-          showFormError('appLocation', 'State and City is required');
-          hasError = true;
-        }
+        // City is optional, no validation needed
 
         if (!businessLicense) {
           showFormError('businessLicense', 'Business license is required');
